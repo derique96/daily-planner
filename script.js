@@ -5,16 +5,21 @@ var saveInput = $("container");
 var TODO = $("description");
 var currentDay = dayjs();
 
-$(function plannerForm (event) {
-  event.preventDefault();
+$(document).ready(function () {
   $(".saveBtn").on("click", function () {
-    var inputText = $("textarea [hour-9]").val();
-    $(this).localStorage.getItem("description");
+    var inputText = $(this).siblings(".description").val();
     console.log(inputText);
-    
-    localStorage.setItem("description", inputText);
-    
+    var divNumber = $(this).parent().attr("id");
+    localStorage.setItem(divNumber, inputText);
   });
+  $("#9 .description").val(localStorage.getItem("9"));
+  $("#10 .description").val(localStorage.getItem("10"));
+  $("#11 .description").val(localStorage.getItem("11"));
+  $("#12 .description").val(localStorage.getItem("12"));
+  $("#13 .description").val(localStorage.getItem("13"));
+  $("#14 .description").val(localStorage.getItem("14"));
+  $("#15 .description").val(localStorage.getItem("15"));
+  $("#16 .description").val(localStorage.getItem("16"));
   $("#currentDay").text(currentDay.format("MMM-DD-YYYY"));
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -29,10 +34,27 @@ $(function plannerForm (event) {
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
   //
+
+  function colors() {
+    var currentHour = dayjs().hour();
+    console.log(currentHour);
+    $(".time-block").each(function () {
+      var divTime = $(this).attr("id");
+      if (currentHour == divTime) {
+        $(this).addClass("present");
+      } else if (divTime < currentHour) {
+        $(this).addClass("past");
+      } else if (divTime > currentHour) {
+        $(this).addClass("future");
+      }
+    });
+  }
+  colors();
+
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
 });
-container.on("submit", plannerForm);
+// container.on("submit", plannerForm);
